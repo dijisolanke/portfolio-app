@@ -119,6 +119,32 @@ export default function Portfolio() {
         .neuro-button-small:active {
           box-shadow: inset 1px 1px 3px #bebebe, inset -1px -1px 3px #ffffff;
         }
+
+        @keyframes pulse-expand-right {
+          0%,
+          25% {
+            transform: scaleX(1);
+            transform-origin: left center;
+          }
+          12.5% {
+            transform: scaleX(1.3);
+            transform-origin: left center;
+          }
+          25.01%,
+          100% {
+            transform: scaleX(1);
+            transform-origin: left center;
+          }
+        }
+
+        .project-slit .neuro-slit {
+          animation: pulse-expand-right 8s ease-in-out 3;
+          transform-origin: left center;
+        }
+
+        .project-slit:hover .neuro-slit {
+          animation: none;
+        }
       `}</style>
 
       {/* Developer Name */}
@@ -191,6 +217,7 @@ export default function Portfolio() {
                           title={project.title}
                         />
                       </div>
+
                       {/* Project Details */}
                       <div className="space-y-3 flex-1 text-center">
                         <h3 className="text-xl font-medium text-gray-800 ">
@@ -234,6 +261,37 @@ export default function Portfolio() {
                   }}
                 >
                   <div className="text-center">
+                    {/* Location: Right after the View Live button */}
+                    {project.isPrivate ? (
+                      <div className="relative inline-block mt-2 group">
+                        <button
+                          className="neuro-icon-button p-2 rounded-full transition-all duration-200 opacity-60 cursor-not-allowed"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Github size={16} className="text-gray-500" />
+                        </button>
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
+                          <div className="bg-gray-800 text-white px-3 py-1.5 text-xs rounded-lg whitespace-nowrap">
+                            Private repo - contact for access
+                          </div>
+                          {/* Arrow pointing down */}
+                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                            <div className="border-4 border-transparent border-t-gray-800"></div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="neuro-icon-button p-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 inline-block mt-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Github size={16} className="text-gray-700" />
+                      </a>
+                    )}
                     <div className="mb-4">{project.title}</div>
                     <a
                       href={project.url}
